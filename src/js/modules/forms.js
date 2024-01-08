@@ -1,4 +1,4 @@
-import checkNumInputs from "./checkNumInputs";
+
 import { windowClose } from "./modals";
 const forms = () => {
 
@@ -6,7 +6,7 @@ const forms = () => {
         inputs = document.querySelectorAll('input'),
         upload = document.querySelectorAll('[name="upload"]')
 
-    checkNumInputs('input[name="phone"]');
+    // checkNumInputs('input[name="phone"]');
 
     const message = {
         loading: 'Загрузка',
@@ -48,9 +48,9 @@ const forms = () => {
         item.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            let statuMessege = document.createElement('div');
-            statuMessege.classList.add('status');
-            item.parentNode.append(statuMessege);
+            let statusMessege = document.createElement('div');
+            statusMessege.classList.add('status');
+            item.parentNode.append(statusMessege);
             item.classList.add('animated', 'fadeOutUp');
 
             setTimeout(() => {
@@ -60,11 +60,11 @@ const forms = () => {
             let statusImg = document.createElement('img');
             statusImg.setAttribute('src', message.spinner);
             statusImg.classList.add('animated', 'fadeInUp');
-            statuMessege.append(statusImg);
+            statusMessege.append(statusImg);
 
             let textMessage = document.createElement('div');
             textMessage.textContent = message.loading;
-            statuMessege.append(textMessage);
+            statusMessege.append(textMessage);
 
 
             const formData = new FormData(item);
@@ -89,12 +89,12 @@ const forms = () => {
                         upload.forEach(item => {
                             item.previousElementSibling.textContent = 'Файл не выбран';
                         })
-                        statuMessege.remove();
+                        statusMessege.remove();
                         item.style.display = 'block';
                         item.classList.remove('fadeOutUp');
                         item.classList.add('fadeInUp');
                         windowClose();
-                    }, 90000);
+                    }, 3000);
 
                 });
         });
