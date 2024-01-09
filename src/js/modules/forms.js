@@ -4,9 +4,43 @@ const forms = () => {
 
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
-        upload = document.querySelectorAll('[name="upload"]')
+        upload = document.querySelectorAll('[name="upload"]');
+    
+    let calcObj = {};
 
-    // checkNumInputs('input[name="phone"]');
+    function calcFormInputs(input, eventType, nameValue) {
+        const elem = document.querySelector(input);
+        elem.addEventListener(eventType, () => {
+            if (elem.getAttribute('name') === 'upload') {
+                const fileList = elem.files;
+                fileList.length > 0 ? calcObj[nameValue] = true : calcObj[nameValue] = false;
+                cheakToSubmit('.calc_form .button-order');
+            } else {
+                calcObj[nameValue] = true
+                cheakToSubmit('.calc_form .button-order');
+            }
+            
+        }); 
+    }
+  
+
+    function cheakToSubmit(button) {
+        if (calcObj.size == true && calcObj.material == true && calcObj.upload == true) {
+            buttonToggleDisable(button, false);
+        }
+    }
+    
+  
+    function buttonToggleDisable(button, boolean) {
+        const btn = document.querySelector(button);
+        
+        if (boolean) {
+            btn.setAttribute('disabled', boolean);
+        } else {
+            btn.removeAttribute('disabled');
+        }
+    }
+
 
     const message = {
         loading: 'Загрузка',
@@ -16,7 +50,6 @@ const forms = () => {
         ok: 'assets/img/ok.png',
         fail: 'assets/img/fail.png'
     };
-
 
     const path = {
         disiner: 'assets/server.php',
@@ -34,7 +67,7 @@ const forms = () => {
 
     upload.forEach(item => {
         item.addEventListener('input', () => {
-            console.log(item.files[0]);
+            console.log(item.files);
             let dots;
             const arr = item.files[0].name.split('.');
             arr[0].length > 10 ? dots = '...' : dots = '.';
@@ -46,6 +79,13 @@ const forms = () => {
     form.forEach(item => {
 
         item.addEventListener('submit', (e) => {
+            if (e.target.matches('.calc_form')) {
+                for (let key in calcObj) {
+                    delete calcObj[key];
+                }
+                buttonToggleDisable('.calc_form .button-order', true);
+            }
+
             e.preventDefault();
 
             let statusMessege = document.createElement('div');
@@ -99,6 +139,11 @@ const forms = () => {
                 });
         });
     });
+
+    buttonToggleDisable('.calc_form .button-order', true);
+    calcFormInputs('[id="size"]', 'change', 'size');
+    calcFormInputs('[id="material"]', 'change', 'material');
+    calcFormInputs('.calc_form [name="upload"]', 'input', 'upload');
 };
 
 export default forms;
