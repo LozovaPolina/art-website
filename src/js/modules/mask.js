@@ -24,13 +24,11 @@ const mask = (selector) => {
               
         if (def.length >= val.length) {
             val = def;
-            
         }
 
         this.value = matrix.replace(/./g, function (a) {
             return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? '' : a;
         });
-        console.log(val + 'конечная');
         
         if (event.type === 'blur') {
             if (this.value.length == 4) {

@@ -1,46 +1,25 @@
-
+import { postData } from "../services/requests";
 import { windowClose } from "./modals";
+import { calcObj } from "./calc";
+
+function buttonToggleDisable(button, boolean) {
+    const btn = document.querySelector(button);
+
+    if (boolean) {
+        btn.setAttribute('disabled', boolean);
+    } else {
+        btn.removeAttribute('disabled');
+    }
+}
+
+
 const forms = () => {
 
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
         upload = document.querySelectorAll('[name="upload"]');
-    
-    let calcObj = {};
 
-    function calcFormInputs(input, eventType, nameValue) {
-        const elem = document.querySelector(input);
-        elem.addEventListener(eventType, () => {
-            if (elem.getAttribute('name') === 'upload') {
-                const fileList = elem.files;
-                fileList.length > 0 ? calcObj[nameValue] = true : calcObj[nameValue] = false;
-                cheakToSubmit('.calc_form .button-order');
-            } else {
-                calcObj[nameValue] = true
-                cheakToSubmit('.calc_form .button-order');
-            }
-            
-        }); 
-    }
-  
-
-    function cheakToSubmit(button) {
-        if (calcObj.size == true && calcObj.material == true && calcObj.upload == true) {
-            buttonToggleDisable(button, false);
-        }
-    }
-    
-  
-    function buttonToggleDisable(button, boolean) {
-        const btn = document.querySelector(button);
-        
-        if (boolean) {
-            btn.setAttribute('disabled', boolean);
-        } else {
-            btn.removeAttribute('disabled');
-        }
-    }
-
+   
 
     const message = {
         loading: 'Загрузка',
@@ -54,15 +33,6 @@ const forms = () => {
     const path = {
         disiner: 'assets/server.php',
         question: 'assets/question.php'
-    };
-
-    const postData = async (url, data) => {
-
-        let res = await fetch(url, {
-            method: 'POST',
-            body: data
-        });
-        return await res.text();
     };
 
     upload.forEach(item => {
@@ -141,9 +111,7 @@ const forms = () => {
     });
 
     buttonToggleDisable('.calc_form .button-order', true);
-    calcFormInputs('[id="size"]', 'change', 'size');
-    calcFormInputs('[id="material"]', 'change', 'material');
-    calcFormInputs('.calc_form [name="upload"]', 'input', 'upload');
 };
 
 export default forms;
+export { buttonToggleDisable };
