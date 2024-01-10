@@ -1,6 +1,6 @@
 import { postData } from "../services/requests";
 import { windowClose } from "./modals";
-import { calcObj } from "./calc";
+import { calcObj} from "./calc";
 
 function buttonToggleDisable(button, boolean) {
     const btn = document.querySelector(button);
@@ -19,7 +19,7 @@ const forms = () => {
         inputs = document.querySelectorAll('input'),
         upload = document.querySelectorAll('[name="upload"]');
 
-   
+
 
     const message = {
         loading: 'Загрузка',
@@ -49,12 +49,6 @@ const forms = () => {
     form.forEach(item => {
 
         item.addEventListener('submit', (e) => {
-            if (e.target.matches('.calc_form')) {
-                for (let key in calcObj) {
-                    delete calcObj[key];
-                }
-                buttonToggleDisable('.calc_form .button-order', true);
-            }
 
             e.preventDefault();
 
@@ -79,9 +73,24 @@ const forms = () => {
 
             const formData = new FormData(item);
 
+
             let api;
             item.closest('.popup-design') || item.matches('.calc_form') ? api = path.disiner : api = path.question;
             console.log(api);
+
+            if (item.matches('.calc_form')) {
+                for (let key in calcObj) {
+                    formData.append(key, calcObj[key])
+                    delete calcObj[key];
+                }
+
+                console.log(formData);
+
+                document.querySelector('.calc-price').textContent = `
+                    Для расчета нужно выбрать размер картины и материал картины
+                `
+                buttonToggleDisable('.calc_form .button-order', true);
+            }
 
             postData(api, formData)
                 .then(res => {
