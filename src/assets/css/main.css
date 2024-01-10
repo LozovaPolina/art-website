@@ -1263,6 +1263,12 @@ h4 {
 .status {
   text-align: center;
 }
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
 @media (max-width: 1399px) {
   .paints {
     display: none;
