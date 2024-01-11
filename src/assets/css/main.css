@@ -1268,7 +1268,9 @@ h4 {
 }
 .show {
   display: block;
+
 }
+
 @media (max-width: 1399px) {
   .paints {
     display: none;
